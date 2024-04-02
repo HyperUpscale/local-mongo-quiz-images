@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Quiz</title>
+</head>
+<body>
+  <h1>Edit Quiz</h1>
+  <form method="post" enctype="multipart/form-data">
+    <label for="name">Name:</label>
+    <input type="text" name="name" id="name" value="{{ quiz.name }}" required>
+    <br>
+    <label for="category">Category:</label>
+    <select name="category" id="category">
+      <option value="cat1"{% if quiz.category == 'cat1' %} selected{% endif %}>Category 1</option>
+      <option value="cat2"{% if quiz.category == 'cat2' %} selected{% endif %}>Category 2</option>
+      <option value="cat3"{% if quiz.category == 'cat3' %} selected{% endif %}>Category 3</option>
+      <option value="cat4"{% if quiz.category == 'cat4' %} selected{% endif %}>Category 4</option>
+      <option value="cat5"{% if quiz.category == 'cat5' %} selected{% endif %}>Category 5</option>
+      <option value="cat6"{% if quiz.category == 'cat6' %} selected{% endif %}>Category 6</option>
+      <option value="cat7"{% if quiz.category == 'cat7' %} selected{% endif %}>Category 7</option>
+    </select>
+    <br>
+    <label for="image">Upload Image:</label>
+    <input type="file" name="image" id="image">
+    <br>
+    <button type="submit">Save</button>
+  </form>
+  <h2>Upload Image</h2>
+  
+  <form action="{{ url_for('upload_image') }}" method="post" enctype="multipart/form-data">
+    <input type="file" name="image">
+    <!-- Input field for quiz ID -->
+    <input type="hidden" name="quiz_id" value="{{ quiz['_id'] }}">
+    <!-- Input field for other parameters like score, description, etc. -->
+    <input type="text" name="score" placeholder="Score">
+    <input type="text" name="description_line1" placeholder="Description Line 1">
+    <input type="text" name="description_line2" placeholder="Description Line 2">
+    <input type="submit" value="Upload">
+</form>
+  
+
+  <a href="{{ url_for('gallery', quiz_id=quiz['_id']) }}">View Image Gallery</a>
+    
+</body>
+</html>

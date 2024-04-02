@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz App</title>
+</head>
+<body>
+  <h1>Quiz App</h1>
+
+  <h2>Create a New Quiz</h2>
+  <form method="post" action="{{ url_for('create') }}">
+    <label for="name">Name:</label>
+    <input type="text" name="name" id="name" required>
+    <br>
+    <label for="category">Category:</label>
+    <select name="category" id="category">
+      <option value="cat1">Category 1</option>
+      <option value="cat2">Category 2</option>
+      <option value="cat3">Category 3</option>
+      <option value="cat4">Category 4</option>
+      <option value="cat5">Category 5</option>
+      <option value="cat6">Category 6</option>
+      <option value="cat7">Category 7</option>
+    </select>
+    <br>
+    <button type="submit">Create</button>
+  </form>
+
+  <h2>Existing Quizzes</h2>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message | safe }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Images</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for quiz in quizzes %}
+    <tr>
+      <td>{{ quiz.name }}</td>
+      <td>{{ quiz.category }}</td>
+      <td>
+        {% for image in quiz.images %}
+        <img src="{{ image }}" alt="Image">
+        {% endfor %}
+      </td>
+      <td>
+        <a href="{{ url_for('edit', quiz_id=quiz['_id']) }}">Edit</a>
+        <a href="{{ url_for('start', quiz_id=quiz['_id']) }}">Start</a>
+        <a href="{{ url_for('delete_quiz', quiz_id=quiz['_id']) }}" onclick="return confirm('Are you sure?')">Delete</a>
+      </td>
+    </tr>
+    {% else %}
+    <tr>
+      <td colspan="4">No quizzes yet.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</body>
+</html>
